@@ -96,11 +96,11 @@ jobs:
 
       - name: Make target directories
         if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/series/0.2')
-        run: mkdir -p target site/target tests/target dom/target jsdocs/target project/target
+        run: mkdir -p dom-scala-xml/target target site/target tests/target dom/target jsdocs/target project/target
 
       - name: Compress target directories
         if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/series/0.2')
-        run: tar cf targets.tar target site/target tests/target dom/target jsdocs/target project/target
+        run: tar cf targets.tar dom-scala-xml/target target site/target tests/target dom/target jsdocs/target project/target
 
       - name: Upload target directories
         if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/series/0.2')

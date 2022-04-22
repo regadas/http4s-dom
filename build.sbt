@@ -111,12 +111,13 @@ val catsEffectVersion = "3.3.11"
 val fs2Version = "3.2.7"
 val http4sVersion = buildinfo.BuildInfo.http4sVersion // share version with build project
 val scalaJSDomVersion = "2.1.0"
+val scalaXmlVersion = "2.1.0"
 val circeVersion = "0.15.0-M1"
 val munitVersion = "0.7.29"
 val munitCEVersion = "1.0.7"
 
 lazy val root =
-  project.in(file(".")).aggregate(dom, tests).enablePlugins(NoPublishPlugin)
+  project.in(file(".")).aggregate(dom, domScalaXml, tests).enablePlugins(NoPublishPlugin)
 
 lazy val dom = project
   .in(file("dom"))
@@ -128,6 +129,23 @@ lazy val dom = project
       "co.fs2" %%% "fs2-core" % fs2Version,
       "org.http4s" %%% "http4s-client" % http4sVersion,
       "org.scala-js" %%% "scalajs-dom" % scalaJSDomVersion
+    )
+  )
+  .enablePlugins(ScalaJSPlugin)
+
+lazy val domScalaXml = project
+  .in(file("dom-scala-xml"))
+  .settings(
+    name := "http4s-dom-scala-xml",
+    description := "Provides scala-xml codecs for http4s-dom",
+    libraryDependencies ++= Seq(
+      "org.typelevel" %%% "cats-effect" % catsEffectVersion,
+      "co.fs2" %%% "fs2-core" % fs2Version,
+      "org.http4s" %%% "http4s-core" % http4sVersion,
+      "org.scala-js" %%% "scalajs-dom" % scalaJSDomVersion,
+      "org.scala-lang.modules" %%% "scala-xml" % scalaXmlVersion,
+      "org.scalameta" %%% "munit" % munitVersion % Test,
+      "org.typelevel" %%% "munit-cats-effect-3" % munitCEVersion % Test
     )
   )
   .enablePlugins(ScalaJSPlugin)
